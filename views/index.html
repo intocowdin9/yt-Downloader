@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Youtube Downloader</title>
+    <!-- Include Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/htmx.org@1.9.12" integrity="sha384-ujb1lZYygJmzgSwoxRggbCHcjc0rB2XoQrxeTUQyRjrOnlCoYta87iKBWq3EsdM2" crossorigin="anonymous"></script>
+</head>
+<body id="home" class="bg-gray-100 font-sans leading-normal tracking-normal bg-gradient-to-r from-blue-900 to-green-600 animate-gradient-x">
+
+    <!-- Navigation -->
+    <nav class="bg-white p-6 w-full z-10 top-0 shadow">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex">
+                <a hx-get="/" hx-target="#home" class="text-lg font-semibold">Your Logo</a>
+            </div>
+            <div class="flex">
+                <a class="text-black text-lg hover:text-blue-300" hx-post="/about-us" hx-target="#main-content">About Us</a>
+            </div>
+        </div>
+    </nav>
+   
+
+
+    <!-- Hero Section -->
+    <header class="relative flex items-center justify-center h-64">
+        
+        <div class="text-center z-10">
+            <main id="main-content" class="text-center z-1"></main>
+            <h1 class="text-2xl lg:text-5xl lg:text-5xl text-white font-semibold leading-tight mb-4">Paste youtube link below</h1>
+                <input type="text" hx-get="/search" hx-target="#search-results" hx-trigger="keyup delay:500ms changed" name="yt-link" placeholder="https://..." class="px-4 py-3 w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+      
+        </div>
+    </header>
+       <!-- Features Section -->
+       <div id="search-results" class="h-40 flex-grow flex items-center justify-center w-full">
+        <!-- This section will be dynamically replaced by HTMX -->
+        
+    </div>
+   
+    <footer class="bg-gray-900 text-white py-4 fixed bottom-0 w-full">
+        <div class="container mx-auto text-center">
+          <p class="text-sm">&copy; 2024 Your Company. All rights reserved.</p>
+        </div>
+      </footer>      
+</body>
+</html>
+<style>
+    a {
+        cursor: pointer;
+    }
+</style>

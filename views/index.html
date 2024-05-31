@@ -1,54 +1,157 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Youtube Downloader</title>
     <!-- Include Tailwind CSS -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <script src="https://unpkg.com/htmx.org@1.9.12" integrity="sha384-ujb1lZYygJmzgSwoxRggbCHcjc0rB2XoQrxeTUQyRjrOnlCoYta87iKBWq3EsdM2" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.12"
+        integrity="sha384-ujb1lZYygJmzgSwoxRggbCHcjc0rB2XoQrxeTUQyRjrOnlCoYta87iKBWq3EsdM2"
+        crossorigin="anonymous"></script>
 </head>
-<body id="home" class="bg-gray-100 font-sans leading-normal tracking-normal bg-gradient-to-r from-blue-900 to-green-600 animate-gradient-x">
+
+<body id="home"
+    class="bg-gray-100 font-sans leading-normal tracking-normal bg-gradient-to-r from-gray-900 via-purple-900 to-green-800 animate-gradient-x">
 
     <!-- Navigation -->
-    <nav class="bg-white p-6 w-full z-10 top-0 shadow">
+    <nav class="bg-gray-900 text-white p-3 w-full z-10 top-0 shadow-md">
         <div class="container mx-auto flex justify-between items-center">
-            <div class="flex">
-                <a hx-get="/" hx-target="#home" class="text-lg font-semibold">Your Logo</a>
+            <!-- Logo Section -->
+            <div class="flex items-center space-x-4">
+                <a hx-get="/" hx-target="#home" class="text-2xl text-yellow-200 font-semibold">
+                    <img src="../static/logo.png" alt="Logo" class="nav-logo">
+                </a>
             </div>
-            <div class="flex">
-                <a class="text-black text-lg hover:text-blue-300" hx-post="/about-us" hx-target="#main-content">About Us</a>
+
+            <!-- Navigation Links -->
+            <div class="flex items-center space-x-6">
+                <a class="text-lg hover:text-blue-300" hx-get="#" hx-target="#main-content">Services</a>
+                <a class="text-lg hover:text-blue-300" hx-get="#" hx-target="#main-content">About Us</a>
             </div>
         </div>
     </nav>
-   
-
 
     <!-- Hero Section -->
-    <header class="relative flex items-center justify-center h-64">
-        
-        <div class="text-center z-10">
-            <main id="main-content" class="text-center z-1"></main>
-            <h1 class="text-2xl lg:text-5xl lg:text-5xl text-white font-semibold leading-tight mb-4">Paste youtube link below</h1>
-                <input type="text" hx-get="/search" hx-target="#search-results" hx-trigger="keyup delay:500ms changed" name="yt-link" placeholder="https://..." class="px-4 py-3 w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-      
+    <header class="relative flex items-center justify-center h-full">
+        <div class="text-center h-22">
+            <h1 class="text-3xl lg:text-6xl text-white font-semibold leading-tight mb-4">Paste youtube Link bellow</h1>
+            <input type="text" hx-get="/search" hx-target="#search-results" name="yt-link" placeholder="https://..."
+                class="px-4 py-3 w-full rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                hx-indicator="#loading-spinner" hx-trigger="keyup changed delay:1s">
+            <a hx-get="/" hx-target="#home"
+                class="underline-effect text-lg font-medium text-white hover:text-blue-500">Reset the searching or
+                search again</a>
+
         </div>
     </header>
-       <!-- Features Section -->
-       <div id="search-results" class="h-40 flex-grow flex items-center justify-center w-full">
+
+    <!-- <img id="loading-spinner" class="flex items-center htmx-indicator htmx-indicator" src="../static/sample.gif"/> -->
+    <div id="search-results" class="flex items-center">
+        <img class="flex items-center mx-auto rounded-sm w-32 h-32 rounded-full mb-4 htmx-indicator" id="loading-spinner"
+            src="../static/ball.gif" />
+
         <!-- This section will be dynamically replaced by HTMX -->
-        
     </div>
-   
-    <footer class="bg-gray-900 text-white py-4 fixed bottom-0 w-full">
+
+
+    <footer class="bg-gray-900 text-white py-1 fixed bottom-0 w-full">
         <div class="container mx-auto text-center">
-          <p class="text-sm">&copy; 2024 Your Company. All rights reserved.</p>
+            <p class="text-sm">&copy; 2024 Your Company. All rights reserved.</p>
         </div>
-      </footer>      
+    </footer>
 </body>
+
 </html>
 <style>
     a {
         cursor: pointer;
+    }
+
+    .htmx-indicator {
+        opacity: 0;
+        transition: opacity 500ms ease-in;
+    }
+
+    .htmx-request .htmx-indicator {
+        opacity: 1
+    }
+
+    .htmx-request.htmx-indicator {
+        opacity: 1
+    }
+
+    @keyframes gradient-x {
+        0% {
+            background-position: 0% 50%;
+        }
+
+        50% {
+            background-position: 100% 50%;
+        }
+
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+
+    .animate-gradient-x {
+        background-size: 200% 200%;
+        animation: gradient-x 5s ease infinite;
+    }
+
+    .underline-effect {
+        position: relative;
+        display: inline-block;
+    }
+
+    .underline-effect::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        transform: scaleX(0);
+        height: 2px;
+        bottom: 0;
+        left: 0;
+        background-color: #3b82f6;
+        /* Tailwind's blue-500 */
+        transform-origin: bottom right;
+        transition: transform 0.25s ease-out;
+    }
+
+    .underline-effect:hover::after {
+        transform: scaleX(1);
+        transform-origin: bottom left;
+    }
+
+    /* Custom Placeholder Style */
+    .cool-placeholder::-webkit-input-placeholder {
+        color: #9CA3AF;
+        /* Tailwind's gray-400 */
+        font-style: italic;
+    }
+
+    .cool-placeholder:-moz-placeholder {
+        color: #9CA3AF;
+        /* Tailwind's gray-400 */
+        font-style: italic;
+    }
+
+    .cool-placeholder::-moz-placeholder {
+        color: #9CA3AF;
+        /* Tailwind's gray-400 */
+        font-style: italic;
+    }
+
+    .cool-placeholder:-ms-input-placeholder {
+        color: #9CA3AF;
+        /* Tailwind's gray-400 */
+        font-style: italic;
+    }
+    .nav-logo {
+        width: 200px; /* Adjust this value to make the image smaller */
+        height: auto; /* Maintain aspect ratio */
     }
 </style>

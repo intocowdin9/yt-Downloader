@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"net/url"
+	"os"
 	"time"
 
 	"github.com/gorilla/mux"
@@ -98,7 +99,12 @@ func YTSearchHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	apiURL := "https://www.youtube.com/youtubei/v1/player?key=AIzaSyA8eiZmM1FaDVjRy-df2KTyQ_vz_yYM39w"
+	apiKey, err := os.Open(".env")
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+
+	apiURL := fmt.Sprintf("https://www.youtube.com/youtubei/v1/player?key=%v", apiKey)
 	req, err := http.NewRequest("POST", apiURL, bytes.NewBuffer(jsonData))
 	if err != nil {
 		http.Error(w, "error creating request", http.StatusInternalServerError)
@@ -160,13 +166,6 @@ func YTSearchHandler(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	// if bestAudioURL != nil {
-	// 	fmt.Printf("Best Audio URL: %s\n", *bestAudioURL)
-	// } else {
-	// 	fmt.Println("Audio URL not found")
-	// }
-
-	// Print the URL
 	if len(response.StreamingData.Formats) > 0 {
 
 		cardHTML := fmt.Sprintf(
